@@ -10,10 +10,30 @@ export default class AddTo extends Component {
         this.state = {
             imageInput: '',
             nameInput: '',
-            priceInput: 0
+            priceInput: 0,
+            item: [],
+            id: ''
         }
         this.baseState = this.state
     }
+componentDidMount(){
+    console.log(this.props.match.params.id)
+     axios.get(`/api/product/${this.props.match.params.id}`).then(res =>
+       {
+           this.setState({
+               imageInput: res.data[0].img,
+               nameInput: res.data[0].name,
+               priceInput: res.data[0].price,
+               id: res.data[0].id 
+             })
+        
+        }
+    )
+}
+
+
+
+
 urlInput = (val) => {
     this.setState({imageInput: val || img})
 }
@@ -23,15 +43,12 @@ nameInput = (val) => {
 priceInput = (val) => {
     this.setState({priceInput: val})
 }
-clear = (e) => {
-    e.preventDefault()
-    this.setState(this.baseState)
 
-}
 handleSubmit = (e) => {
     e.preventDefault()
+    const { id } = this.state
     const {imageInput, nameInput, priceInput} = this.state
-    axios.post('/api/allproducts', {nameInput, priceInput, imageInput}).then(res => console.log(res))
+    axios.put(`/api/update/${id}`, {nameInput, priceInput, imageInput}).then(res => console.log(res))
     .catch(err => console.log(err))
 }
 
@@ -40,7 +57,7 @@ handleSubmit = (e) => {
 
     
   render() {
-      console.log(this.state.nameInput)
+
     return (
       <div className='main'>
           <form onSubmit={this.handleSubmit}>
@@ -56,9 +73,9 @@ handleSubmit = (e) => {
                   <input onChange={(e) => this.priceInput(e.target.value)} type="number" value={this.state.priceInput}/>
               </div>
               <div className='btnBox'>
-                  <button onClick={this.clear} className='btn'>Cancel</button>
+                  <Link to='/' className='btn'>back</Link>
                   <Link to='/'
-                   onClick={this.handleSubmit} className='btn'>Add to inventory
+                   onClick={this.handleSubmit} className='btn'>Edit
                   </Link>
               </div>
           </form>

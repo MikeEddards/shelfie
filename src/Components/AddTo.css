@@ -11,11 +11,13 @@ form{
     height: 70vh;
     display: flex;
     justify-content: center;
+    align-items: center;
     flex-direction: column;
     border-radius: 10px;
 }
 .formPic{
-    width: 30vw;
+    width: 25vw;
+    max-height: 30vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,4 +46,6 @@ input, h2{
     padding: 15px;
     border-radius: 10px;
     font-weight: 750;
+    text-decoration: none;
+    color: black;
 }
